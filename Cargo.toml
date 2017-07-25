@@ -1,0 +1,6 @@
+[package]
+name = "toucHNews"
+version = "0.1.0"
+authors = ["Trevor Bentley <mrmekon@gmail.com>"]
+
+[dependencies]
