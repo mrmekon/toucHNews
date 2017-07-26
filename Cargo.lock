@@ -1,6 +1,6 @@
 [root]
 name = "toucHNews"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "hn 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "objc 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
