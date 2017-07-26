@@ -20,6 +20,12 @@ One headline is shown at a time.  To interact:
 * Tap the 'X' in the circle on the left to minimize back into the Control Strip.
 * Tap the 'X' in the square on the right to quit.
 
+
+## Screencast
+
+<img src="https://github.com/mrmekon/toucHNews/blob/master/docs/screencast.gif" width="1200">
+
+
 ## Installing toucHNews
 
 ### Pre-build Mac App
