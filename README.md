@@ -28,7 +28,7 @@ One headline is shown at a time.  To interact:
 
 ## Installing toucHNews
 
-### Pre-build Mac App
+### Pre-built Mac App
 
 **WARNING** Apps are not signed with a developer ID.  After running for the first time, you must open the Security & Privacy tab of System Preferences and unblock toucHNews.
 
