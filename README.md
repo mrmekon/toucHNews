@@ -24,7 +24,9 @@ One headline is shown at a time.  To interact:
 
 ### Pre-build Mac App
 
-Coming soon.
+**WARNING** Apps are not signed with a developer ID.  After running for the first time, you must open the Security & Privacy tab of System Preferences and unblock toucHNews.
+
+* [toucHNews v0.2.0 - 64-bit OS X App](https://github.com/mrmekon/toucHNews/releases/download/toucHNews-0.2.0/toucHNews.zip) (MD5 Checksum: `327fcce38801812b0d49224064f15c50`)
 
 ### GitHub
 
