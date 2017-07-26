@@ -1,4 +1,4 @@
-# toucHNews: Hacker News (YCombinator) news feed for the Mac Touch Bar
+# toucHNews: Hacker News news feed for the Mac Touch Bar
 
 [![OSX/Linux Build Status](https://travis-ci.org/mrmekon/toucHNews.svg?branch=master)](https://travis-ci.org/mrmekon/toucHNews)
 [![Crates.io Version](https://img.shields.io/crates/v/toucHNews.svg)](https://crates.io/crates/toucHNews)
