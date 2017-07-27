@@ -46,6 +46,11 @@ $ ./bundle_osx.sh
 $ open target/toucHNews.app
 ```
 
+## Requirements
+
+* A Mac with a Touch Bar, of course.  Or you can use the Touch Bar simulator in XCode if you don't have one and want to test it out.
+* "Control Strip" enabled on the Touch Bar.  The Control Strip is the always-available shortcuts on the right-hand side.  It is enabled by default.  If it's not enabled for you, open *System Preferences* -> *Keyboard*, and in the *Touch Bar shows* drop-down select *App Controls with Control Strip*.
+
 ## Direct Dependencies
 
 * [rubrail](https://github.com/mrmekon/rubrail-rs) - Rust Touch Bar UI library
