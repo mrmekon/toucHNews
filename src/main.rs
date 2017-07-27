@@ -10,6 +10,10 @@ use hn::HackerNews;
 
 extern crate open;
 
+#[cfg(feature = "log")]
+#[macro_use]
+extern crate log;
+
 #[macro_use]
 extern crate objc;
 use objc::runtime::Object;
@@ -59,17 +63,24 @@ impl TouchbarUI {
                 t if t < -170. => (0.8, 0.4, 0.1, 1.0),
                 _ => (0.9, 0.9, 0.9, 1.0),
             };
-            unsafe { rubrail::util::set_text_color(item, rgba.0, rgba.1, rgba.2, rgba.3); }
-            if state == SwipeState::Ended {
-                unsafe { rubrail::util::set_text_color(item, 1., 1., 1., 1.); }
-                match translation {
-                    t if t > 170. => {
-                        let _ = tx.send(Cmd::Open);
-                    },
-                    t if t < -170. => {
-                        let _ = tx.send(Cmd::Hide);
-                    },
-                    _ => {},
+            match state {
+                SwipeState::Cancelled | SwipeState::Failed | SwipeState::Unknown => {
+                    unsafe { rubrail::util::set_text_color(item, 1., 1., 1., 1.); }
+                },
+                SwipeState::Ended => {
+                    unsafe { rubrail::util::set_text_color(item, 1., 1., 1., 1.); }
+                    match translation {
+                        t if t > 170. => {
+                            let _ = tx.send(Cmd::Open);
+                        },
+                        t if t < -170. => {
+                            let _ = tx.send(Cmd::Hide);
+                        },
+                        _ => {},
+                    }
+                }
+                _ => {
+                    unsafe { rubrail::util::set_text_color(item, rgba.0, rgba.1, rgba.2, rgba.3); }
                 }
             }
         }));
@@ -143,6 +154,8 @@ impl TouchbarUI {
 }
 
 fn main() {
+    #[cfg(feature = "log")]
+    rubrail::app::create_logger(".touchnews.log");
     rubrail::app::init_app();
     let mut bar = TouchbarUI::init();
     let mut nsapp = NSApp::new();

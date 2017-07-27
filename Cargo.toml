@@ -22,6 +22,7 @@ rubrail = "0.4"
 hn = "0.2"
 objc = "0.2"
 open = "1.2"
+log = {version = "0.3", optional = true }
 
 [package.metadata.release]
 sign-commit = false
