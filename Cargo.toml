@@ -25,7 +25,6 @@ log = {version = "0.3", optional = true }
 
 [dependencies.fruitbasket]
 version = "0.3"
-#path = "../fruitbasket"
 features = ["logging"]
 
 [package.metadata.release]

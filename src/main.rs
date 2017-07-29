@@ -161,7 +161,7 @@ fn main() {
         .version(env!("CARGO_PKG_VERSION"))
         .plist_key("LSBackgroundOnly", "1")
         .resource(icon.to_str().unwrap())
-        .build(fruitbasket::InstallDir::Temp).unwrap();
+        .build(fruitbasket::InstallDir::Custom("target/".to_string())).unwrap();
     nsapp.set_activation_policy(fruitbasket::ActivationPolicy::Prohibited);
     #[cfg(feature = "log")]
     info!("Launched toucHNews!");
