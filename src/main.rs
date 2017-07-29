@@ -5,6 +5,8 @@ use rubrail::TTouchbar;
 use rubrail::SpacerType;
 use rubrail::SwipeState;
 
+extern crate fruitbasket;
+
 extern crate hn;
 use hn::HackerNews;
 
@@ -14,13 +16,6 @@ extern crate open;
 #[macro_use]
 extern crate log;
 
-#[macro_use]
-extern crate objc;
-use objc::runtime::Object;
-use objc::runtime::Class;
-use std::cell::Cell;
-
-use std::thread;
 use std::time::Duration;
 use std::sync::Arc;
 use std::sync::RwLock;
@@ -155,10 +150,22 @@ impl TouchbarUI {
 
 fn main() {
     #[cfg(feature = "log")]
-    rubrail::app::create_logger(".touchnews.log");
+    fruitbasket::create_logger(".touchnews.log", fruitbasket::LogDir::Home, 5, 2).unwrap();
     rubrail::app::init_app();
     let mut bar = TouchbarUI::init();
-    let mut nsapp = NSApp::new();
+    let icon = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("icon").join("toucHNews.icns");
+    let mut nsapp = fruitbasket::Trampoline::new(
+        "touCHnews", "toucHNews", "com.trevorbentley.toucHNews")
+        .icon("toucHNews.icns")
+        .version(env!("CARGO_PKG_VERSION"))
+        .plist_key("LSBackgroundOnly", "1")
+        .resource(icon.to_str().unwrap())
+        .build(fruitbasket::InstallDir::Temp).unwrap();
+    nsapp.set_activation_policy(fruitbasket::ActivationPolicy::Prohibited);
+    #[cfg(feature = "log")]
+    info!("Launched toucHNews!");
+
     loop {
         if let Ok(cmd) = bar.rx.recv_timeout(Duration::from_millis(100)) {
             match cmd {
@@ -167,66 +174,6 @@ fn main() {
             }
         }
         bar.update();
-        nsapp.run(false);
-    }
-}
-
-struct NSApp {
-    app: *mut objc::runtime::Object,
-    pool: Cell<*mut Object>,
-    run_count: Cell<u64>,
-    run_mode: *mut Object,
-    run_date: *mut Object,
-}
-impl NSApp {
-    fn new() -> NSApp {
-        unsafe {
-            let cls = Class::get("NSApplication").unwrap();
-            let app: *mut Object = msg_send![cls, sharedApplication];
-            let cls = Class::get("NSAutoreleasePool").unwrap();
-            let pool: *mut Object = msg_send![cls, alloc];
-            let pool: *mut Object = msg_send![pool, init];
-            let cls = Class::get("NSString").unwrap();
-            let rust_runmode = "kCFRunLoopDefaultMode";
-            let run_mode: *mut Object = msg_send![cls, alloc];
-            let run_mode: *mut Object = msg_send![run_mode,
-                                                  initWithBytes:rust_runmode.as_ptr()
-                                                  length:rust_runmode.len()
-                                                  encoding: 4]; // UTF8_ENCODING
-            let date_cls = Class::get("NSDate").unwrap();
-            NSApp {
-                app: app,
-                pool: Cell::new(pool),
-                run_count: Cell::new(0),
-                run_mode: run_mode,
-                run_date: msg_send![date_cls, distantPast],
-            }
-        }
-    }
-    fn run(&mut self, block: bool) {
-        loop {
-            unsafe {
-                let run_count = self.run_count.get();
-                // Create a new release pool every once in a while, draining the old one
-                if run_count % 100 == 0 {
-                    let old_pool = self.pool.get();
-                    if run_count != 0 {
-                        let _ = msg_send![old_pool, drain];
-                    }
-                    let cls = Class::get("NSAutoreleasePool").unwrap();
-                    let pool: *mut Object = msg_send![cls, alloc];
-                    let pool: *mut Object = msg_send![pool, init];
-                    self.pool.set(pool);
-                }
-                let mode = self.run_mode;
-                let event: *mut Object = msg_send![self.app, nextEventMatchingMask: -1
-                                                  untilDate: self.run_date inMode:mode dequeue: 1];
-                let _ = msg_send![self.app, sendEvent: event];
-                let _ = msg_send![self.app, updateWindows];
-                self.run_count.set(run_count + 1);
-            }
-            if !block { break; }
-            thread::sleep(Duration::from_millis(50));
-        }
+        nsapp.run(fruitbasket::RunPeriod::Once);
     }
 }
