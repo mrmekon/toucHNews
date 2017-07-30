@@ -54,7 +54,7 @@ $ open target/toucHNews.app
 
 ## Direct Dependencies
 
+* [fruitbasket](https://github.com/mrmekon/fruitbasket) - Rust framework for Mac app lifecycle
 * [rubrail](https://github.com/mrmekon/rubrail-rs) - Rust Touch Bar UI library
 * [hn](https://github.com/mrmekon/hn-rs) - Rust Hacker News API wrapper
-* [objc](https://github.com/SSheldon/rust-objc) - Rust Objective-C bindings
 * [open](https://github.com/Byron/open-rs) - Opens things
