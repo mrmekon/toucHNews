@@ -1,6 +1,6 @@
 [root]
 name = "toucHNews"
-version = "0.3.1"
+version = "0.3.2-rc"
 dependencies = [
  "fruitbasket 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "hn 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
