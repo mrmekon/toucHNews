@@ -19,7 +19,7 @@ panic = 'unwind'
 
 [dependencies]
 rubrail = "0.4"
-hn = "0.2"
+hn = "0.3"
 open = "1.2"
 log = {version = "0.3", optional = true }
 
