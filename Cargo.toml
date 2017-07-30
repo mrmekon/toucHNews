@@ -18,7 +18,7 @@ codegen-units = 1
 panic = 'unwind'
 
 [dependencies]
-rubrail = "0.4"
+rubrail = "0.5"
 hn = "0.3"
 open = "1.2"
 log = {version = "0.3", optional = true }

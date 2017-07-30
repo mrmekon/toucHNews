@@ -38,7 +38,7 @@ enum Cmd {
 }
 
 impl TouchbarUI {
-    fn init() -> TouchbarUI {
+    fn init(stopper: fruitbasket::FruitStopper) -> TouchbarUI {
         let (tx,rx) = channel::<Cmd>();
         let mut touchbar = Touchbar::alloc("hn");
         let hn = HackerNews::new();
@@ -87,7 +87,8 @@ impl TouchbarUI {
             *writer = 0;
         }));
 
-        let quit_button = touchbar.create_button(None, Some("X"), Box::new(move |_| {rubrail::app::quit()}));
+        let quit_stopper = stopper.clone();
+        let quit_button = touchbar.create_button(None, Some("X"), Box::new(move |_| {quit_stopper.stop()}));
         touchbar.update_button_width(&quit_button, 30);
 
         let flexible_space = touchbar.create_spacer(SpacerType::Flexible);
@@ -151,8 +152,6 @@ impl TouchbarUI {
 fn main() {
     #[cfg(feature = "log")]
     fruitbasket::create_logger(".touchnews.log", fruitbasket::LogDir::Home, 5, 2).unwrap();
-    rubrail::app::init_app();
-    let mut bar = TouchbarUI::init();
     let icon = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("icon").join("toucHNews.icns");
     let mut nsapp = fruitbasket::Trampoline::new(
@@ -165,6 +164,9 @@ fn main() {
     nsapp.set_activation_policy(fruitbasket::ActivationPolicy::Prohibited);
     #[cfg(feature = "log")]
     info!("Launched toucHNews!");
+
+    let stopper = nsapp.stopper();
+    let mut bar = TouchbarUI::init(stopper);
 
     loop {
         if let Ok(cmd) = bar.rx.recv_timeout(Duration::from_millis(100)) {
