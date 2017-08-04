@@ -24,7 +24,7 @@ open = "1.2"
 log = {version = "0.3", optional = true }
 
 [dependencies.fruitbasket]
-version = "0.3"
+version = "0.5"
 features = ["logging"]
 
 [package.metadata.release]
