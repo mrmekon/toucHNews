@@ -40,14 +40,10 @@ One headline is shown at a time.  To interact:
 
 ### GitHub
 
-Use Cargo to build as usual, but note that it **must** run from a Mac App bundle to access the Touch Bar.  A primitive script is included to bundle the debug build for you.
-
 ```
 $ git clone https://github.com/mrmekon/toucHNews.git
 $ cd toucHNews
-$ cargo build
-$ ./bundle_osx.sh
-$ open target/toucHNews.app
+$ cargo run
 ```
 
 ## Requirements
