@@ -88,7 +88,9 @@ impl TouchbarUI {
         }));
 
         let quit_stopper = stopper.clone();
-        let quit_button = touchbar.create_button(None, Some("X"), Box::new(move |_| {quit_stopper.stop()}));
+        let quit_button = touchbar.create_button(None, Some("X"), Box::new(move |_| {
+            quit_stopper.stop()
+        }));
         touchbar.update_button_width(&quit_button, 30);
 
         let flexible_space = touchbar.create_spacer(SpacerType::Flexible);
@@ -176,6 +178,8 @@ fn main() {
             }
         }
         bar.update();
-        nsapp.run(fruitbasket::RunPeriod::Once);
+        if nsapp.run(fruitbasket::RunPeriod::Once).is_err() {
+            break;
+        }
     }
 }
