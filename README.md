@@ -32,6 +32,7 @@ One headline is shown at a time.  To interact:
 
 **WARNING** Apps are not signed with a developer ID.  After running for the first time, you must open the Security & Privacy tab of System Preferences and unblock toucHNews.
 
+* [toucHNews v0.3.3 - 64-bit OS X 10.12 (Sierra)](https://github.com/mrmekon/toucHNews/releases/download/toucHNews-0.3.3/toucHNews-0.3.3.zip) (MD5 Checksum: `0cebdca33d66c2a6a982eaeec647a14f`)
 * [toucHNews v0.3.2 - 64-bit OS X 10.12 (Sierra)](https://github.com/mrmekon/toucHNews/releases/download/toucHNews-0.3.2/toucHNews-0.3.2.zip) (MD5 Checksum: `8b90eaab993729847308a643804e6da8`)
 * [toucHNews v0.3.1 - 64-bit OS X 10.12 (Sierra)](https://github.com/mrmekon/toucHNews/releases/download/toucHNews-0.3.1/toucHNews-0.3.1.zip) (MD5 Checksum: `f395e6f000e4d632c491d3c6431a51a1`)
 * [toucHNews v0.3.0 - 64-bit OS X 10.12 (Sierra)](https://github.com/mrmekon/toucHNews/releases/download/toucHNews-0.3.0/toucHNews.zip) (MD5 Checksum: `adb4b7611037c721c7c8a6f23ac09dd2`)
