@@ -1,6 +1,6 @@
 [package]
 name = "toucHNews"
-version = "0.3.3-rc"
+version = "0.3.3"
 authors = ["Trevor Bentley <mrmekon@gmail.com>"]
 description = "Hacker News (YCombinator) news feed for the Mac Touch Bar"
 keywords = ["news", "hackernews", "touchbar", "mac", "osx"]
