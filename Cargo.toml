@@ -18,13 +18,13 @@ codegen-units = 1
 panic = 'unwind'
 
 [dependencies]
-rubrail = "0.5"
-hn = "0.3"
+rubrail = "0.7"
+hn = "0.4"
 open = "1.2"
-log = {version = "0.3", optional = true }
+log = {version = "0.4", optional = true }
 
 [dependencies.fruitbasket]
-version = "0.5"
+version = "0.6"
 features = ["logging"]
 
 [package.metadata.release]
