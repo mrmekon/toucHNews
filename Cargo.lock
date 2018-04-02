@@ -987,7 +987,7 @@ dependencies = [
 
 [[package]]
 name = "toucHNews"
-version = "0.4.0"
+version = "0.4.1-rc"
 dependencies = [
  "fruitbasket 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "hn 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
