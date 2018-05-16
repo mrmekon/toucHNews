@@ -18,16 +18,16 @@ extern crate log;
 
 use std::time::Duration;
 use std::sync::Arc;
-use std::sync::RwLock;
 use std::sync::mpsc::channel;
 use std::sync::mpsc::Receiver;
+use std::sync::atomic::{AtomicUsize, Ordering};
 
 struct TouchbarUI {
     touchbar: Touchbar,
     hn: HackerNews,
     headline_label: rubrail::ItemId,
     idx_label: rubrail::ItemId,
-    headline_idx: Arc<RwLock<usize>>,
+    headline_idx: Arc<AtomicUsize>,
     entries: Vec<hn::Item>,
     rx: Receiver<Cmd>,
 }
@@ -44,13 +44,12 @@ impl TouchbarUI {
         let hn = HackerNews::new();
 
         let headline_label = touchbar.create_label("Loading...");
-        let headline_idx = Arc::new(RwLock::new(0));
+        let headline_idx = Arc::new(AtomicUsize::new(0));
         unsafe { rubrail::util::set_text_color(&headline_label, 1., 1., 1., 1.0); }
 
         let cb_idx = headline_idx.clone();
         touchbar.add_item_tap_gesture(&headline_label, 1, 1, Box::new(move |_| {
-            let mut writer = cb_idx.write().unwrap();
-            *writer += 1;
+            let _ = cb_idx.fetch_add(1, Ordering::SeqCst);
         }));
         touchbar.add_item_swipe_gesture(&headline_label, Box::new(move |item,state,translation| {
             let rgba = match translation {
@@ -83,8 +82,7 @@ impl TouchbarUI {
         let idx_label = touchbar.create_label("0 / 0");
         let cb_idx = headline_idx.clone();
         touchbar.add_item_tap_gesture(&idx_label, 2, 1, Box::new(move |_| {
-            let mut writer = cb_idx.write().unwrap();
-            *writer = 0;
+            cb_idx.store(0, Ordering::SeqCst);
         }));
 
         let quit_stopper = stopper.clone();
@@ -120,10 +118,9 @@ impl TouchbarUI {
         if len == 0 {
             return;
         }
-        let idx = *self.headline_idx.read().unwrap();
+        let idx = self.headline_idx.load(Ordering::Relaxed);
         if idx >= len {
-            let mut writer = self.headline_idx.write().unwrap();
-            *writer = 0;
+            self.headline_idx.store(0, Ordering::SeqCst);
         }
         if let Some(item) = self.entries.get(idx) {
             self.touchbar.update_label(&self.headline_label, &item.title());
@@ -132,14 +129,14 @@ impl TouchbarUI {
         }
     }
     fn open(&mut self) {
-        let idx = *self.headline_idx.read().unwrap();
+        let idx = self.headline_idx.load(Ordering::Relaxed);
         if let Some(item) = self.hn.into_iter().nth(idx) {
             let url = item.url();
             let _ = open::that(&url);
         }
     }
     fn hide(&mut self) {
-        let idx = *self.headline_idx.read().unwrap();
+        let idx = self.headline_idx.load(Ordering::Relaxed);
         if let Some(item) = self.hn.into_iter().nth(idx) {
             self.hn.hide(&item);
         }
